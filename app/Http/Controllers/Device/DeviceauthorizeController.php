@@ -22,7 +22,7 @@ class DeviceauthorizeController extends Controller
 //        $d_cpuid = DB::select("select * from yx_device where d_mac = ?",["34-97-F6-8B-E4-26"]);
 //        var_dump($d_cpuid->d_cpuid);
 //        return $d_cpuid;
-        $data = $deviceModel->where("d_mac","34-97-F6-8B-E4-26")->get();
+        $data = $deviceModel->where('d_mac',"34-97-F6-8B-E4-26")->get();
         return $data;
         // return view('welcome');
     }
