@@ -17,12 +17,11 @@ class DeviceauthorizeController extends Controller
         $val = '';
         if ($request->isMethod('post')){
             $val = self::rsa_decode($request->request->get('a'));
-            echo gettype($val);
+            // echo gettype($val);
         }
-        $sql = "select * from yx_device;";
-        $aa = DB::select($sql);
-        echo gettype($aa);
-        return $val;
+        $d_cpuid = DB::select("select * from yx_device where d_mac = ?",["34-97-F6-8B-E4-26"]);
+        var_dump($d_cpuid->d_cpuid);
+        return $d_cpuid;
         // return view('welcome');
     }
 
