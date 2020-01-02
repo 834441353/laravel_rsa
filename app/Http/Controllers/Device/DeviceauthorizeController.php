@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Device;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPSTORM_META\type;
+
 // use Illuminate\Support\Facades\Input;
 
 class DeviceauthorizeController extends Controller
@@ -15,11 +17,12 @@ class DeviceauthorizeController extends Controller
         $val = '';
         if ($request->isMethod('post')){
             $val = self::rsa_decode($request->request->get('a'));
+            echo type($val);
         }
         $sql = "select * from yx_device;";
         $aa = DB::select($sql);
-
-        return $aa[0];
+        echo type($aa);
+        return $val;
         // return view('welcome');
     }
 
