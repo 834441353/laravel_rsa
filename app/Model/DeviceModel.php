@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DeviceModel extends Model
 {
     //
-    protected $table = "yc_device";
+    protected $table = "yx_device";
 
     protected $primaryKey = "d_mac";
 
