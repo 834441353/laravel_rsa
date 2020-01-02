@@ -19,7 +19,7 @@ class DeviceauthorizeController extends Controller
         $sql = "select * from yx_device;";
         $aa = DB::select($sql);
 
-        return $aa;
+        return $aa[0];
         // return view('welcome');
     }
 
