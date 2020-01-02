@@ -5,23 +5,25 @@ namespace App\Http\Controllers\Device;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use function PHPSTORM_META\type;
+use App\Model\DeviceModel;
 
 // use Illuminate\Support\Facades\Input;
 
 class DeviceauthorizeController extends Controller
 {
     //
-    public function index(Request $request)
+    public function index(Request $request,DeviceModel $deviceModel)
     {
         $val = '';
         if ($request->isMethod('post')){
             $val = self::rsa_decode($request->request->get('a'));
             // echo gettype($val);
         }
-        $d_cpuid = DB::select("select * from yx_device where d_mac = ?",["34-97-F6-8B-E4-26"]);
-        var_dump($d_cpuid->d_cpuid);
-        return $d_cpuid;
+//        $d_cpuid = DB::select("select * from yx_device where d_mac = ?",["34-97-F6-8B-E4-26"]);
+//        var_dump($d_cpuid->d_cpuid);
+//        return $d_cpuid;
+        $data = $deviceModel->where("d_mac","34-97-F6-8B-E4-26")->get();
+        return $data;
         // return view('welcome');
     }
 
