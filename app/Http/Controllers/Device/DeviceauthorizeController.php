@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Device;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use App\Model\DeviceModel;
 
 // use Illuminate\Support\Facades\Input;
@@ -15,15 +15,33 @@ class DeviceauthorizeController extends Controller
     public function index(Request $request,DeviceModel $deviceModel)
     {
         $val = '';
+        $vals = '';
         if ($request->isMethod('post')){
             $val = self::rsa_decode($request->request->get('a'));
-            // echo gettype($val);
+            $vals = json_decode($val);
+
+            // $data = $deviceModel->where('d_mac',$vals->mac)->where('d_cpuid',$vals->cpuid)->firstOrFail();
+            $data = $deviceModel->where('d_mac',$vals->mac)->where('d_cpuid',$vals->cpuid)->get();
+            dd($data);
+            if($data != null){
+                echo 1;
+                return 1;
+            }else{
+                echo 2;
+                return 0;
+            }
+        }else{
+            echo 3;
+            return 0;
         }
 //        $d_cpuid = DB::select("select * from yx_device where d_mac = ?",["34-97-F6-8B-E4-26"]);
 //        var_dump($d_cpuid->d_cpuid);
 //        return $d_cpuid;
-        $data = $deviceModel->where('d_mac',"34-97-F6-8B-E4-26")->get();
-        return $data;
+        // $data['deviceInfo'] = $deviceModel->where('d_mac',"34-97-F6-8B-E4-26")->get();
+        // $data['deviceInfo'] = $deviceModel->get();
+        
+
+        // return $vals->id;
         // return view('welcome');
     }
 
