@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Device;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\DB;
 use App\Model\DeviceModel;
 
 // use Illuminate\Support\Facades\Input;
@@ -12,37 +11,51 @@ use App\Model\DeviceModel;
 class DeviceauthorizeController extends Controller
 {
     //
-    public function index(Request $request,DeviceModel $deviceModel)
+    public function index(Request $request, DeviceModel $deviceModel)
     {
         $val = '';
         $vals = '';
-        if ($request->isMethod('post')){
-            $val = self::rsa_decode($request->request->get('a'));
-            $vals = json_decode($val);
-
-            // $data = $deviceModel->where('d_mac',$vals->mac)->where('d_cpuid',$vals->cpuid)->firstOrFail();
-            $data = $deviceModel->where('d_mac',$vals->mac)->where('d_cpuid',$vals->cpuid)->get();
-            dd($data);
-            if($data != null){
-                echo 1;
-                return 1;
-            }else{
-                echo 2;
+        if ($request->isMethod('post')) {
+            $va = $request->request->get('a');
+            $val = self::rsa_decode(substr($va, -172, 172));
+            $vals = substr($va, 0, strlen($va) - 172);
+            if (md5($vals) != $val) {
+                echo '-----';
                 return 0;
             }
-        }else{
-            echo 3;
-            return 0;
+            $vals = json_decode($vals);
+            $data = $deviceModel->where('d_mac', $vals->mac)->first();
+            date_default_timezone_set('PRC');//设置时区
+            if ($data != null) {
+                if ($data->status == 1) {
+                    if (strtotime($data->d_starttime) < strtotime(date("Y-m-d H:i:s")) and strtotime(date("Y-m-d H:i:s")) < strtotime($data->d_endtime)) {
+                        if ($data->d_version == $vals->version) {
+                            $data = array('mac' => $vals->mac, 'cpuid' => $vals->cpuid, 'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
+                            $data = json_encode($data);
+                            return self::authorization($data);
+                        } else {
+                            return 0;//算法版本不正确
+                        }
+                    } else {
+                        return 1;//不在有效时间段内
+                    }
+                } elseif ($data->status == 2) {
+                    return 2;//该设备停用状态
+                } elseif ($data->status == 3) {
+                    return 3;//该设备删除状态
+                }
+            } else {
+                return -1;//无该设备数据
+            }
+        } else {
+            return -2;//非法请求
         }
-//        $d_cpuid = DB::select("select * from yx_device where d_mac = ?",["34-97-F6-8B-E4-26"]);
-//        var_dump($d_cpuid->d_cpuid);
-//        return $d_cpuid;
-        // $data['deviceInfo'] = $deviceModel->where('d_mac',"34-97-F6-8B-E4-26")->get();
-        // $data['deviceInfo'] = $deviceModel->get();
-        
+    }
 
-        // return $vals->id;
-        // return view('welcome');
+    private static function authorization($data)
+    {
+        $data = $data . self::privEncrypt(md5($data), file_get_contents(base_path('keys/rsa_private_key.pem')));
+        return $data;
     }
 
     private static function getPrivateKey($privateKey)
