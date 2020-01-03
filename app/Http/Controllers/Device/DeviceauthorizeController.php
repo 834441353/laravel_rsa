@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Device;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\DeviceModel;
+use Illuminate\Support\Facades\Validator;
 
 // use Illuminate\Support\Facades\Input;
 
@@ -16,14 +17,26 @@ class DeviceauthorizeController extends Controller
         $val = '';
         $vals = '';
         if ($request->isMethod('post')) {
-            $va = $request->request->get('a');
+            if (!$request->request->has('info')) {
+                return -2;
+            }
+//            $request->validate([
+//                'info' => 'bail|required|min:173',
+//            ]);
+            $va = $request->request->get('info');
+
+            if ($va == null and strlen($va) < 173) {
+                return -2;//非法请求
+            }
             $val = self::rsa_decode(substr($va, -172, 172));
             $vals = substr($va, 0, strlen($va) - 172);
             if (md5($vals) != $val) {
-                echo '-----';
-                return 0;
+                return -2;//非法请求
             }
             $vals = json_decode($vals);
+            if (!array_key_exists('mac', (array)$vals) or !array_key_exists('cpuid', (array)$vals) or !array_key_exists('company', (array)$vals) or !array_key_exists('productname', (array)$vals) or !array_key_exists('version', (array)$vals) or !array_key_exists('name', (array)$vals) or !array_key_exists('tel', (array)$vals)) {
+                return -2;
+            }
             $data = $deviceModel->where('d_mac', $vals->mac)->first();
             date_default_timezone_set('PRC');//设置时区
             if ($data != null) {
