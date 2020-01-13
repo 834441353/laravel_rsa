@@ -20,16 +20,24 @@ class DeviceauthorizeController extends Controller
             if (!$request->request->has('info')) {
                 return -2;
             }
+
 //            $request->validate([
 //                'info' => 'bail|required|min:173',
 //            ]);
             $va = $request->request->get('info');
-
+//            return $va;
             if ($va == null and strlen($va) < 173) {
                 return -2;//非法请求
             }
-            $val = self::rsa_decode(substr($va, -172, 172));
+            $miwen = substr($va, -172, 172);
+            $newmiwen = str_ireplace(" ","+",$miwen);
+            $val = self::rsa_decode($newmiwen);
             $vals = substr($va, 0, strlen($va) - 172);
+
+            $myfile = fopen("testfile.txt", "w");
+            fwrite($myfile, $va);
+            fclose($myfile);
+//            return $va;
             if (md5($vals) != $val) {
                 return -2;//非法请求
             }
@@ -38,7 +46,7 @@ class DeviceauthorizeController extends Controller
                 return -2;
             }
             $data = $deviceModel->where('d_mac', $vals->mac)->first();
-            date_default_timezone_set('PRC');//设置时区
+//            date_default_timezone_set('PRC');//设置时区
             if ($data != null) {
                 if ($data->status == 1) {
                     if (strtotime($data->d_starttime) < strtotime(date("Y-m-d H:i:s")) and strtotime(date("Y-m-d H:i:s")) < strtotime($data->d_endtime)) {

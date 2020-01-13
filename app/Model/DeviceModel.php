@@ -9,7 +9,13 @@ class DeviceModel extends Model
     //
     protected $table = "yx_device";
 
-    protected $primaryKey = "d_mac";
+//    protected $primaryKey = "d_mac";
+    protected $primaryKey = "d_id";
 
-    protected $fillable = ["d_starttime","d_endtime","d_company","d_productname","d_version","d_name","d_tel","status"];
+    protected $fillable = ["d_mac", "d_cpuid","d_starttime", "d_endtime", "d_companyid", "d_productname", "d_version", "d_name", "d_tel", "status", "updated_at", "created_at"];
+
+    public function getCompanyname()
+    {
+        return $this->hasOne(\App\Model\CompanyModel::class, "c_id", "d_companyid");
+    }
 }
