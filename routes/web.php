@@ -28,11 +28,14 @@ Route::group(['middleware'=>'checkadminlogin'],function(){
     Route::get('/tableshow/company/editItem/{id}','Home\IndexController@edita');
     Route::post('/tableshow/company/editItem/','Home\IndexController@edita');
 
-    Route::get('/tableshow/addDevice','Home\IndexController@addDevice');
-    Route::post('/tableshow/addDevice','Home\IndexController@addDevice');
+//    Route::get('/tableshow/addDevice','Home\IndexController@addDevice');
+//    Route::post('/tableshow/addDevice','Home\IndexController@addDevice');
+    Route::match(['get','post'],'/tableshow/addDevice','Home\IndexController@addDevice');
 
-    Route::get('/tableshow/addCompany','Home\IndexController@addCompany');
-    Route::post('/tableshow/addCompany','Home\IndexController@addCompany');
+
+//    Route::get('/tableshow/addCompany','Home\IndexController@addCompany');
+//    Route::post('/tableshow/addCompany','Home\IndexController@addCompany');
+    Route::match(['get','post'],'/tableshow/addCompany','Home\IndexController@addCompany');
 
     Route::post('/tableshow/company/dela','Home\IndexController@dela');
     Route::get('/additem','Home\IndexController@additem');

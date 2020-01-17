@@ -34,9 +34,9 @@ class DeviceauthorizeController extends Controller
             $val = self::rsa_decode($newmiwen);
             $vals = substr($va, 0, strlen($va) - 172);
 
-            $myfile = fopen("testfile.txt", "w");
-            fwrite($myfile, $va);
-            fclose($myfile);
+//            $myfile = fopen("testfile.txt", "w");
+//            fwrite($myfile, $va);
+//            fclose($myfile);
 //            return $va;
             if (md5($vals) != $val) {
                 return -2;//非法请求
