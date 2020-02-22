@@ -161,13 +161,9 @@
                                 <div class="form-group form-inline">
                                     <label class="col-sm-2 col-sm-2 control-label">授权时间段</label>
                                     <div class="col-sm-10">
-                                        <input type="datetime"
-                                               class="form-control round-form" id="d_starttime" name="d_starttime"
-                                               value="{{date('Y-m-d\TH:m:s',strtotime($data["d_starttime"]))}}">
+                                        <input type="datetime-local" class="form-control round-form" id="d_starttime" name="d_starttime" value="{{date('Y-m-d\TH:m:s',strtotime($data["d_starttime"]))}}">
                                         <span>  -  </span>
-                                        <input type="datetime" class="form-control round-form" id="d_endtime"
-                                               name="d_endtime"
-                                               value="{{date('Y-m-d\TH:m:s',strtotime($data["d_endtime"]))}}">
+                                        <input type="datetime-local" class="form-control round-form" id="d_endtime" name="d_endtime" value="{{date('Y-m-d\TH:m:s',strtotime($data["d_endtime"]))}}">
                                     </div>
                                 </div>
                                 <div class="form-group">
