@@ -112,8 +112,9 @@
                                     <th><i class="fa fa-desktop"></i> Mac</th>
                                     {{--<th class="hidden-phone"><i class="fa fa-question-circle"></i> Descrition</th>--}}
                                     <th><i class="fa fa-paper-plane"></i> Cpuid</th>
-                                    <th><i class="fa fa-chevron-left"></i> Starttime</th>
-                                    <th>Endtime <i class="fa fa-chevron-right"></i></th>
+                                    <th><i class="fa fa-calendar-check-o"></i> 天数</th>
+                                    {{--<th><i class="fa fa-chevron-left"></i> Starttime</th>--}}
+                                    {{--<th>Endtime <i class="fa fa-chevron-right"></i></th>--}}
                                     {{--<th><i class="fa fa-university"></i> Company</th>--}}
                                     <th><i class="fa fa-bookmark"></i> Productname</th>
                                     <th><i class="fa fa-terminal"></i> Version</th>
@@ -130,8 +131,9 @@
                                     <tr>
                                         <td>{{$item['d_mac']}}</td>
                                         <td>{{$item['d_cpuid']}}</td>
-                                        <td>{{$item['d_starttime']}}</td>
-                                        <td>{{$item['d_endtime']}}</td>
+                                        <td>{{$item['t']}}</td>
+                                        {{--<td>{{$item['d_starttime']}}</td>--}}
+                                        {{--<td>{{$item['d_endtime']}}</td>--}}
                                         {{--<td>{{$item->getCompanyname->c_companyname}}</td>--}}
                                         <td>{{$item['d_productname']}}</td>
                                         <td>{{$item['d_version']}}</td>
@@ -143,6 +145,8 @@
                                             <td><span class="label label-info label-mini">停用</span></td>
                                         @elseif($item['status'] == 3)
                                             <td><span class="label label-warning label-mini">删除</span></td>
+                                        @elseif($item['status'] == 4)
+                                            <td><span class="label label-theme label-mini">过期</span></td>
                                         @endif
                                         {{--<td class="hidden-phone">Lorem Ipsum dolor</td>--}}
                                         {{--<td>Lorem Ipsum dolor</td>--}}

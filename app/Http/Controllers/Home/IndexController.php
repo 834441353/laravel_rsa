@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Model\DeviceModel;
 use App\Model\CompanyModel;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 use Validator;
 
@@ -30,6 +32,23 @@ class IndexController extends Controller
             $data = $companyModel->paginate(13);
             return view('home.tableshow',compact('data'));
         }
+        for ($item=0;$item<$data->count();$item++){
+//            var_dump($data[$item]['d_endtime']);
+            if(strtotime($data[$item]['d_starttime'])>strtotime(date('Y-m-d H:i:s'))){
+//                $data[$item]['t'] = $data[$item]['d_starttime'];
+                $data[$item]['t'] = '未开始';
+            }else{
+                $t = round((strtotime($data[$item]['d_endtime'])-strtotime(date('Y-m-d H:i:s')))/86400,0);
+                if($data[$item]['status']==1){
+                    if($t<0){
+                        $data[$item]['status'] = 4;
+                    }
+                }
+                $data[$item]['t'] = $t;
+
+            }
+        }
+
         return view('home.companyDTshow',compact('data'));
     }
     public function edita(Request $request,DeviceModel $deviceModel,CompanyModel $companyModel){
@@ -153,6 +172,26 @@ class IndexController extends Controller
         }
 
     }
+
+
+    public function imgRecevice(Request $request){
+        if ($request->isMethod('post')) {
+            if (!$request->request->has('info')) {
+                if (!$request->request->has('file')) {
+                    return -2;
+                }
+                return -2;
+            }
+            $id = $request->request->get('info');
+            $file = $request->file('file');//获取文件
+//            $fileName = md5(time() . rand(0, 10000)) . '.' . $file->getClientOriginalName();//随机名称+获取客户的原始名称
+            $fileName = $file->getClientOriginalName();
+            $savePath = $id.'/'.strtotime(date("Y-m-d H:i:s")).'_'.$fileName;
+            Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
+        }
+        return 0;
+    }
+
     public function importexcel(DeviceModel $deviceModel){
         return view('home.importexcel');
     }
