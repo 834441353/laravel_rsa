@@ -101,7 +101,7 @@
                             <span>添加</span>
                         </a>
                         <ul class="sub">
-                            <li><a href="morris.html">添加公司</a></li>
+                            <li><a href="{{url('/tableshow/addCompany')}}">添加公司</a></li>
                             <li><a href="{{url('/tableshow/addDevice')}}">添加设备</a></li>
                         </ul>
                     </li>

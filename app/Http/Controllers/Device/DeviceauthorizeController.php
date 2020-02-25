@@ -46,7 +46,6 @@ class DeviceauthorizeController extends Controller
                 return -2;
             }
             $data = $deviceModel->where('d_mac', $vals->mac)->first();
-//            date_default_timezone_set('PRC');//设置时区
             if ($data != null) {
                 if ($data->status == 1) {
                     if (strtotime($data->d_starttime) < strtotime(date("Y-m-d H:i:s")) and strtotime(date("Y-m-d H:i:s")) < strtotime($data->d_endtime)) {

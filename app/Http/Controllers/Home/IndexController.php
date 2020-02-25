@@ -18,6 +18,7 @@ class IndexController extends Controller
     {
         return view('home.index');
     }
+
     public function tableshow(DeviceModel $deviceModel,CompanyModel $companyModel){
         $data = $companyModel->paginate(13);
         return view('home.tableshow',compact('data'));
@@ -45,12 +46,11 @@ class IndexController extends Controller
                     }
                 }
                 $data[$item]['t'] = $t;
-
             }
         }
-
         return view('home.companyDTshow',compact('data'));
     }
+
     public function edita(Request $request,DeviceModel $deviceModel,CompanyModel $companyModel){
 
         if ($request->isMethod("get")){
@@ -68,8 +68,6 @@ class IndexController extends Controller
                 'd_productname'=>'required',
                 'd_name'=>'required',
                 'd_tel'=>'required',
-
-
             ];
             $messages= [
                 'd_cpuid.required' => 'cpuid不能为空！',
@@ -89,9 +87,8 @@ class IndexController extends Controller
                 return ['status'=>false,'message'=>['添加失败！']];
             }
         }
-
-
     }
+
     public function dela(Request $request,DeviceModel $deviceModel){
         if ($request->isMethod('post')){
             if($request->request->has('id')){
@@ -108,6 +105,7 @@ class IndexController extends Controller
         }
         return 22;
     }
+
     public function addDevice(Request $request,DeviceModel $deviceModel,CompanyModel $companyModel){
         if($request->isMethod('get')){
             $data_company = $companyModel->get();
@@ -122,7 +120,6 @@ class IndexController extends Controller
                 'd_productname'=>'required',
                 'd_name'=>'required',
                 'd_tel'=>'required',
-
             ];
             $messages= [
                 'd_mac.required'=>'Mac地址不能为空',
@@ -140,8 +137,6 @@ class IndexController extends Controller
             if($status != null){
                 return ['status'=>false,'message'=>['该设备已存在！']];
             }
-
-
 //            var_dump($data['d_cpuid']);
             $status = $deviceModel->create(['d_mac'=>$data['d_mac'],'d_starttime'=>$data['d_starttime'],'d_cpuid'=>$data['d_cpuid'],'d_endtime'=>$data['d_endtime'],'d_companyid'=>$data['d_companyid'],'d_productname'=>$data['d_productname'],'d_version'=>$data['d_version'],'d_name'=>$data['d_name'],'d_tel'=>$data['d_tel'],'status'=>$data['status']]);
             if ($status){
@@ -149,11 +144,10 @@ class IndexController extends Controller
             }else{
                 return ['status'=>false,'message'=>['添加失败！']];
             }
-
-
         }
         return view('home.additem');
     }
+
     public function addCompany(Request $request,CompanyModel $companyModel){
         if($request->isMethod('get')) {
             return view('home.addCompany');
@@ -170,26 +164,26 @@ class IndexController extends Controller
                 return ['status'=>false,'message'=>['添加失败！']];
             }
         }
-
     }
-
 
     public function imgRecevice(Request $request){
         if ($request->isMethod('post')) {
+//            return $request->request->all();
             if (!$request->request->has('info')) {
-                if (!$request->request->has('file')) {
-                    return -2;
-                }
-                return -2;
+                return -2;//非法请求
             }
             $id = $request->request->get('info');
             $file = $request->file('file');//获取文件
 //            $fileName = md5(time() . rand(0, 10000)) . '.' . $file->getClientOriginalName();//随机名称+获取客户的原始名称
             $fileName = $file->getClientOriginalName();
             $savePath = $id.'/'.strtotime(date("Y-m-d H:i:s")).'_'.$fileName;
-            Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
+            $status = Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
+            if(!$status){
+                return -1;//服务器错误
+            }
+            return 1;
         }
-        return 0;
+        return -2;//非法请求
     }
 
     public function importexcel(DeviceModel $deviceModel){
