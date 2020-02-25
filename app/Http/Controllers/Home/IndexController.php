@@ -174,9 +174,13 @@ class IndexController extends Controller
             }
             $id = $request->request->get('info');
             $file = $request->file('file');//获取文件
+            if(!$file){
+                return -3;//非法请求
+            }
 //            $fileName = md5(time() . rand(0, 10000)) . '.' . $file->getClientOriginalName();//随机名称+获取客户的原始名称
             $fileName = $file->getClientOriginalName();
-            $savePath = $id.'/'.strtotime(date("Y-m-d H:i:s")).'_'.$fileName;
+//            $savePath = $id.'/'.strtotime(date("Y-m-d H:i:s")).'_'.$fileName;
+            $savePath = $id.'/'.md5(time() . rand(0, 10000)).'_'.$fileName;
             $status = Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
             if(!$status){
                 return -1;//服务器错误
