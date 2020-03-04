@@ -14,7 +14,7 @@
                 console.info('ajax..');
                 var d_id = $('#d_id').val();
                 var d_mac = $('#d_mac').val();
-                var d_cpuid = $('#d_cpuid').val();
+                var d_chipid = $('#d_chipid').val();
                 var d_starttime = $('#d_starttime').val();
                 var d_endtime = $('#d_endtime').val();
                 var d_companyid = $('#d_companyid').val();
@@ -32,7 +32,7 @@
                         _token: '{{ csrf_token() }}',
                         d_id: d_id,
                         d_mac: d_mac,
-                        d_cpuid: d_cpuid,
+                        d_chipid: d_chipid,
                         d_starttime: d_starttime,
                         d_endtime: d_endtime,
                         d_companyid: d_companyid,
@@ -153,8 +153,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 col-sm-2 control-label">CPU序列号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="d_cpuid" name="d_cpuid"
-                                               value="{{$data["d_cpuid"]}}">
+                                        <input type="text" class="form-control" id="d_chipid" name="d_chipid"
+                                               value="{{$data["d_chipid"]}}">
                                         {{--<span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>--}}
                                     </div>
                                 </div>

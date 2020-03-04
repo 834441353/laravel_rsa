@@ -13,7 +13,7 @@
                 console.info('ajax..');
                 // var d_id = $('#d_id').val();
                 var d_mac = $('#d_mac').val();
-                var d_cpuid = $('#d_cpuid').val();
+                var d_chipid = $('#d_chipid').val();
                 var d_starttime = $('#d_starttime').val();
                 var d_endtime = $('#d_endtime').val();
                 var d_companyid = $('#d_companyid').val();
@@ -22,7 +22,7 @@
                 var d_name = $('#d_name').val();
                 var d_tel = $('#d_tel').val();
                 var status = $('#status').val();
-                console.info(d_cpuid);
+                console.info(d_chipid);
 
                 $.ajax({
                     type: 'POST',
@@ -32,7 +32,7 @@
                         _token: '{{ csrf_token() }}',
                         // d_id: d_id,
                         d_mac: d_mac,
-                        d_cpuid: d_cpuid,
+                        d_chipid: d_chipid,
                         d_starttime: d_starttime,
                         d_endtime: d_endtime,
                         d_companyid: d_companyid,
@@ -138,7 +138,7 @@ MAIN SIDEBAR MENU
                             <div class="form-group">
                                 <label class="col-sm-2 col-sm-2 control-label">CPU序列号</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="d_cpuid" name="d_cpuid">
+                                    <input type="text" class="form-control" id="d_chipid" name="d_chipid">
 
                                 </div>
                             </div>

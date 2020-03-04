@@ -63,14 +63,14 @@ class IndexController extends Controller
             $data = $request->request->all();
 //            dd($data);
             $check= [
-                'd_cpuid'=>'required',
+                'd_chipid'=>'required',
                 'd_version'=>'required',
                 'd_productname'=>'required',
                 'd_name'=>'required',
                 'd_tel'=>'required',
             ];
             $messages= [
-                'd_cpuid.required' => 'cpuid不能为空！',
+                'd_chipid.required' => 'chipid不能为空！',
                 'd_version.required'=>'算法版本不能为空！',
                 'd_productname.required'=>'产品名不能为空！',
                 'd_name.required'=>'紧急联系人不能为空！',
@@ -80,7 +80,7 @@ class IndexController extends Controller
             if($status->fails()){
                 return ['status'=>false,'message'=>$status->messages()->all()];
             }
-            $status = $deviceModel->where("d_id",$data['d_id'])->update(['d_cpuid'=>$data['d_cpuid'],'d_starttime'=>$data['d_starttime'],'d_endtime'=>$data['d_endtime'],'d_companyid'=>$data['d_companyid'],'d_productname'=>$data['d_productname'],'d_version'=>$data['d_version'],'d_name'=>$data['d_name'],'d_tel'=>$data['d_tel'],'status'=>$data['status']]);
+            $status = $deviceModel->where("d_id",$data['d_id'])->update(['d_chipid'=>$data['d_chipid'],'d_starttime'=>$data['d_starttime'],'d_endtime'=>$data['d_endtime'],'d_companyid'=>$data['d_companyid'],'d_productname'=>$data['d_productname'],'d_version'=>$data['d_version'],'d_name'=>$data['d_name'],'d_tel'=>$data['d_tel'],'status'=>$data['status']]);
             if ($status){
                 return ['status'=>true,'message'=>['添加成功！']];
             }else{
@@ -115,7 +115,7 @@ class IndexController extends Controller
 //            dd($data);
             $check= [
                 'd_mac'=>'required',
-                'd_cpuid'=>'required',
+                'd_chipid'=>'required',
                 'd_version'=>'required',
                 'd_productname'=>'required',
                 'd_name'=>'required',
@@ -123,7 +123,7 @@ class IndexController extends Controller
             ];
             $messages= [
                 'd_mac.required'=>'Mac地址不能为空',
-                'd_cpuid.required' => 'cpuid不能为空！',
+                'd_chipid.required' => 'chipid不能为空！',
                 'd_version.required'=>'算法版本不能为空！',
                 'd_productname.required'=>'产品名不能为空！',
                 'd_name.required'=>'紧急联系人不能为空！',
@@ -137,8 +137,8 @@ class IndexController extends Controller
             if($status != null){
                 return ['status'=>false,'message'=>['该设备已存在！']];
             }
-//            var_dump($data['d_cpuid']);
-            $status = $deviceModel->create(['d_mac'=>$data['d_mac'],'d_starttime'=>$data['d_starttime'],'d_cpuid'=>$data['d_cpuid'],'d_endtime'=>$data['d_endtime'],'d_companyid'=>$data['d_companyid'],'d_productname'=>$data['d_productname'],'d_version'=>$data['d_version'],'d_name'=>$data['d_name'],'d_tel'=>$data['d_tel'],'status'=>$data['status']]);
+//            var_dump($data['d_chipid']);
+            $status = $deviceModel->create(['d_mac'=>$data['d_mac'],'d_starttime'=>$data['d_starttime'],'d_chipid'=>$data['d_chipid'],'d_endtime'=>$data['d_endtime'],'d_companyid'=>$data['d_companyid'],'d_productname'=>$data['d_productname'],'d_version'=>$data['d_version'],'d_name'=>$data['d_name'],'d_tel'=>$data['d_tel'],'status'=>$data['status']]);
             if ($status){
                 return ['status'=>true,'message'=>['添加成功！']];
             }else{
@@ -175,7 +175,7 @@ class IndexController extends Controller
             $id = $request->request->get('info');
             $file = $request->file('file');//获取文件
             if(!$file){
-                return -3;//非法请求
+                return -2;//非法请求
             }
 //            $fileName = md5(time() . rand(0, 10000)) . '.' . $file->getClientOriginalName();//随机名称+获取客户的原始名称
             $fileName = $file->getClientOriginalName();

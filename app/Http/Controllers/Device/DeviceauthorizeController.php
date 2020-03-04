@@ -42,7 +42,7 @@ class DeviceauthorizeController extends Controller
                 return -2;//非法请求
             }
             $vals = json_decode($vals);
-            if (!array_key_exists('mac', (array)$vals) or !array_key_exists('cpuid', (array)$vals) or !array_key_exists('company', (array)$vals) or !array_key_exists('productname', (array)$vals) or !array_key_exists('version', (array)$vals) or !array_key_exists('name', (array)$vals) or !array_key_exists('tel', (array)$vals)) {
+            if (!array_key_exists('mac', (array)$vals) or !array_key_exists('chipid', (array)$vals) or !array_key_exists('company', (array)$vals) or !array_key_exists('productname', (array)$vals) or !array_key_exists('version', (array)$vals) or !array_key_exists('name', (array)$vals) or !array_key_exists('tel', (array)$vals)) {
                 return -2;
             }
             $data = $deviceModel->where('d_mac', $vals->mac)->first();
@@ -50,7 +50,7 @@ class DeviceauthorizeController extends Controller
                 if ($data->status == 1) {
                     if (strtotime($data->d_starttime) < strtotime(date("Y-m-d H:i:s")) and strtotime(date("Y-m-d H:i:s")) < strtotime($data->d_endtime)) {
                         if ($data->d_version == $vals->version) {
-                            $data = array('mac' => $vals->mac, 'cpuid' => $vals->cpuid, 'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
+                            $data = array('mac' => $vals->mac, 'chipid' => $vals->chipid, 'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
                             $data = json_encode($data);
                             return self::authorization($data);
                         } else {

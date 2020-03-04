@@ -12,7 +12,7 @@ class DeviceModel extends Model
 //    protected $primaryKey = "d_mac";
     protected $primaryKey = "d_id";
 
-    protected $fillable = ["d_mac", "d_cpuid","d_starttime", "d_endtime", "d_companyid", "d_productname", "d_version", "d_name", "d_tel", "status"];
+    protected $fillable = ["d_mac", "d_chipid","d_starttime", "d_endtime", "d_companyid", "d_productname", "d_version", "d_name", "d_tel", "status"];
 
     public function getCompanyname()
     {

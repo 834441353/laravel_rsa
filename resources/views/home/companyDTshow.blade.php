@@ -130,7 +130,7 @@
                                 @foreach($data as $item)
                                     <tr>
                                         <td>{{$item['d_mac']}}</td>
-                                        <td>{{$item['d_cpuid']}}</td>
+                                        <td>{{$item['d_chipid']}}</td>
                                         <td>{{$item['t']}}</td>
                                         {{--<td>{{$item['d_starttime']}}</td>--}}
                                         {{--<td>{{$item['d_endtime']}}</td>--}}
