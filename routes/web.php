@@ -17,9 +17,9 @@
 Route::match(['get','post'],'login','Admin\IndexController@login');
 
 
-Route::post('device','Device\DeviceauthorizeController@index');
+Route::any('device','Device\DeviceauthorizeController@index');
 
-Route::post('imgrecevice','Home\IndexController@imgRecevice');
+Route::any('imgrecevice','Home\IndexController@imgRecevice');
 
 Route::group(['middleware'=>'checkadminlogin'],function(){
 
