@@ -16,10 +16,13 @@
 //});
 Route::match(['get','post'],'login','Admin\IndexController@login');
 
+Route::group(['middleware'=>'logvisitor'],function(){
 
-Route::any('device','Device\DeviceauthorizeController@index');
+    Route::any('device','Device\DeviceauthorizeController@index');
 
-Route::any('imgrecevice','Home\IndexController@imgRecevice');
+    Route::any('imgrecevice','Home\IndexController@imgRecevice');
+});
+
 
 Route::group(['middleware'=>'checkadminlogin'],function(){
 
