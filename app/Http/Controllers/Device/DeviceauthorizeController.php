@@ -50,6 +50,9 @@ class DeviceauthorizeController extends Controller
                 if ($data->status == 1) {
                     if (strtotime($data->d_starttime) < strtotime(date("Y-m-d H:i:s")) and strtotime(date("Y-m-d H:i:s")) < strtotime($data->d_endtime)) {
                         if ($data->d_version == $vals->version) {
+                            if($data->d_chipid != $vals->chipid){
+                                return 4;//chipid 不正确
+                            }
                             $data = array('mac' => $vals->mac, 'chipid' => $vals->chipid, 'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
                             $data = json_encode($data);
                             return self::authorization($data);
