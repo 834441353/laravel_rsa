@@ -53,7 +53,7 @@ class DeviceauthorizeController extends Controller
                             if($data->d_chipid != $vals->chipid){
                                 return 4;//chipid 不正确
                             }
-                            $data = array('mac' => $vals->mac, 'chipid' => $vals->chipid, 'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
+                            $data = array('mac' => $vals->mac, 'chipid' => $vals->chipid, 'starttime'=>strtotime($data->d_starttime),'endtime'=>strtotime($data->d_endtime),'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
                             $data = json_encode($data);
                             return self::authorization($data);
                         } else {
