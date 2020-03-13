@@ -39,7 +39,7 @@ class IndexController extends Controller
 //                $data[$item]['t'] = $data[$item]['d_starttime'];
                 $data[$item]['t'] = '未开始';
             }else{
-                $t = round((strtotime($data[$item]['d_endtime'])-strtotime(date('Y-m-d H:i:s')))/86400,0);
+                $t = round((strtotime($data[$item]['d_endtime'])-strtotime(date('Y-m-d H:i:s')))/86400,2);
                 if($data[$item]['status']==1){
                     if($t<0){
                         $data[$item]['status'] = 4;
