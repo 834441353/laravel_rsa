@@ -27,7 +27,7 @@ Route::group(['middleware' => 'logvisitor'], function () {
     Route::group(['middleware' => 'checkadminlogin'], function () {
 
 //    Route::get('/','Home\IndexController@index');
-        Route::get('/', 'Home\IndexController@tableshow');
+//        Route::get('/', 'Home\IndexController@tableshow');
         Route::get('/tableshow', 'Home\IndexController@tableshow');
         Route::get('/tableshow/company/{id}', 'Home\IndexController@showCompany');
         Route::get('/tableshow/company/editItem/{id}', 'Home\IndexController@edita');
@@ -48,6 +48,11 @@ Route::group(['middleware' => 'logvisitor'], function () {
 
         Route::get('logout', 'Admin\IndexController@logout');
     });
+});
+Route::group(['middleware' => 'checkadminlogin'], function () {
+
+//    Route::get('/','Home\IndexController@index');
+    Route::get('/', 'Home\IndexController@tableshow');
 });
 
 
