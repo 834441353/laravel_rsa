@@ -44,7 +44,12 @@ class LogVisitor
                 'response_statuscode' => $response->status(),
             ];
         }
-        Log::info($data);
+        if($response->content() == '-2'){
+            Log::warning($data);
+        }else{
+            Log::info($data);
+        }
+
         return $response;
     }
 }
