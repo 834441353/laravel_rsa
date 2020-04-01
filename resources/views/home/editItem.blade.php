@@ -81,9 +81,9 @@
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
 
-                    <p class="centered"><a href="profile.html"><img src="{{ asset('index') }}/assets/img/ui-sam.jpg"
-                                                                    class="img-circle" width="60"></a></p>
-                    <h5 class="centered">Marcel Newman</h5>
+                    <p class="centered"><a href="{{ url('tableshow') }}"><img src="{{ asset('index') }}/assets/img/ui-sam.jpg"
+                                                                              class="img-circle" width="60"></a></p>
+                    <h5 class="centered">YLSJ_AuthorizationSystems</h5>
 
                     <li class="mt">
                         <a class="active" href="{{ url('tableshow') }}">
