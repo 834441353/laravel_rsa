@@ -37,7 +37,7 @@ class LogVisitor
             ];
         } else {
             if (!session('is_login')) {
-                $user = [];
+                $user = $request->session()->all();
             } else {
                 $user = $request->session()->get('a_id');
 //                dd($sessionData);
