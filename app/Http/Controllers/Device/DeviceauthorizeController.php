@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Device;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\DeviceModel;
+use App\Model\Updaterecord;
 use Illuminate\Support\Facades\Validator;
 
 // use Illuminate\Support\Facades\Input;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class DeviceauthorizeController extends Controller
 {
     //
-    public function index(Request $request, DeviceModel $deviceModel)
+    public function index(Request $request, DeviceModel $deviceModel, Updaterecord $updaterecord)
     {
         $val = '';
         $vals = '';
@@ -57,7 +58,30 @@ class DeviceauthorizeController extends Controller
                             $data = json_encode($data);
                             return self::authorization($data);
                         } else {
-                            return 0;//算法版本不正确
+                            $datau = $updaterecord->where('u_mac', $vals->mac)->where('u_chipid', $vals->chipid)->where('u_oldversion',$vals->version)->first();
+                            if ($datau != null) {
+                                if($datau->status == 0) {
+                                    $token = md5($datau->u_id . $datau->u_mac . $datau->u_chipid . $datau->u_oldversion . $datau->u_newversion);
+                                    return $token;
+                                }else{
+                                    return 0;
+                                }
+                            }
+                            $uid = strtotime(date("Y-m-d H:i:s")) . rand(10000, 99999);
+                            $status = $updaterecord->create([
+                                'u_id' => $uid,
+                                'u_mac' => $vals->mac,
+                                'u_chipid' => $vals->chipid,
+                                'u_oldversion' => $vals->version,
+                                'u_newversion' => $data->d_version,
+                                'status' => 0,
+                            ]);
+                            if (!$status) {
+                                return 0;
+                            }
+                            $token = md5($uid . $vals->mac . $vals->chipid . $vals->version . $data->d_version);
+                            return $token;//算法版本不正确
+//                            return 0;//算法版本不正确
                         }
                     } else {
                         return 1;//不在有效时间段内
@@ -73,6 +97,53 @@ class DeviceauthorizeController extends Controller
         } else {
             return -2;//非法请求
         }
+    }
+
+    /**
+     * 下载适用算法库接口
+     * @param Request $request ：请求
+     * @param Updaterecord $updaterecord 更新记录
+     * @param DeviceModel $deviceModel 设备库
+     * @return int|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download(Request $request, Updaterecord $updaterecord, DeviceModel $deviceModel)
+    {
+//        $files = './public/images/test.zip';
+//        $name = basename($files);       // basename() 函数返回路径中的文件名部分。
+//        return response()->download($files, $name, $headers = ['Content-Type' => 'application/zip;charset=utf-8']);
+
+        if ($request->isMethod('post')) {
+
+            if ($request->request->has('macid') and $request->request->has('chipid') and $request->request->has('version') and $request->request->has('token')) {
+
+                $macid = $request->request->get('macid');
+                $chipid = $request->request->get('chipid');
+                $oldversion = $request->request->get('version');
+                $token = $request->request->get('token');
+
+                $d_data = $deviceModel->where('d_mac', $macid)->first();
+                if (!$d_data) {
+                    return -2;
+                }
+                $u_data = $updaterecord->where('u_mac', $macid)->where('u_chipid', $chipid)->where('u_oldversion', $oldversion)->where('u_newversion', $d_data->d_version)->first();
+                if (!$u_data) {
+                    return -2;
+                }
+                if($u_data->status==1){
+                    return -2;
+                }
+                $d_md5 = md5($u_data->u_id . $macid . $chipid . $oldversion . $u_data->u_newversion);
+                if ($d_md5 != $token) {
+                    return -2;
+                }
+                $filename = 'YXCFmodels/' . $u_data->u_newversion . '.zip';
+                //            dd($macid);
+                $files = base_path($filename);
+                $name = basename($files);
+                return response()->download($files,$name, $headers = ['Content-Type' => 'application/zip;charset=utf-8']);
+            }
+        }
+        return -2;
     }
 
     private static function authorization($data)

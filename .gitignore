@@ -5,6 +5,7 @@
 /storage/*.key
 /vendor
 /keys
+/YXCFmodels
 .env
 .env.backup
 .phpunit.result.cache

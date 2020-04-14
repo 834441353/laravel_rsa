@@ -20,6 +20,8 @@ Route::group(['middleware' => 'logvisitor'], function () {
 
     Route::any('device', 'Device\DeviceauthorizeController@index');
 
+    Route::any('device/download', 'Device\DeviceauthorizeController@download');
+
     Route::any('imgrecevice', 'Home\IndexController@imgRecevice');
 //});
 
