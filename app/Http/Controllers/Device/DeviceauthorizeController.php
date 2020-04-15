@@ -31,7 +31,7 @@ class DeviceauthorizeController extends Controller
                 return -2;//非法请求
             }
             $miwen = substr($va, -172, 172);
-            $newmiwen = str_ireplace(" ","+",$miwen);
+            $newmiwen = str_ireplace(" ", "+", $miwen);
             $val = self::rsa_decode($newmiwen);
             $vals = substr($va, 0, strlen($va) - 172);
 
@@ -51,19 +51,19 @@ class DeviceauthorizeController extends Controller
                 if ($data->status == 1) {
                     if (strtotime($data->d_starttime) < strtotime(date("Y-m-d H:i:s")) and strtotime(date("Y-m-d H:i:s")) < strtotime($data->d_endtime)) {
                         if ($data->d_version == $vals->version) {
-                            if($data->d_chipid != $vals->chipid){
+                            if ($data->d_chipid != $vals->chipid) {
                                 return 4;//chipid 不正确
                             }
-                            $data = array('mac' => $vals->mac, 'chipid' => $vals->chipid, 'starttime'=>strtotime($data->d_starttime),'endtime'=>strtotime($data->d_endtime),'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
+                            $data = array('mac' => $vals->mac, 'chipid' => $vals->chipid, 'starttime' => strtotime($data->d_starttime), 'endtime' => strtotime($data->d_endtime), 'company' => $vals->company, 'productname' => $vals->productname, 'version' => $vals->version, 'name' => $vals->name, 'tel' => $vals->tel);
                             $data = json_encode($data);
                             return self::authorization($data);
                         } else {
-                            $datau = $updaterecord->where('u_mac', $vals->mac)->where('u_chipid', $vals->chipid)->where('u_oldversion',$vals->version)->first();
+                            $datau = $updaterecord->where('u_mac', $vals->mac)->where('u_chipid', $vals->chipid)->where('u_oldversion', $vals->version)->first();
                             if ($datau != null) {
-                                if($datau->status == 0) {
+                                if ($datau->status == 0) {
                                     $token = md5($datau->u_id . $datau->u_mac . $datau->u_chipid . $datau->u_oldversion . $datau->u_newversion);
                                     return $token;
-                                }else{
+                                } else {
                                     return 0;
                                 }
                             }
@@ -129,7 +129,7 @@ class DeviceauthorizeController extends Controller
                 if (!$u_data) {
                     return -2;
                 }
-                if($u_data->status==1){
+                if ($u_data->status == 1) {
                     return -2;
                 }
                 $d_md5 = md5($u_data->u_id . $macid . $chipid . $oldversion . $u_data->u_newversion);
@@ -137,10 +137,14 @@ class DeviceauthorizeController extends Controller
                     return -2;
                 }
                 $filename = 'YXCFmodels/' . $u_data->u_newversion . '.zip';
-                //            dd($macid);
                 $files = base_path($filename);
+
+                if (!file_exists($files)) {
+                    return -2;
+                }
                 $name = basename($files);
-                return response()->download($files,$name, $headers = ['Content-Type' => 'application/zip;charset=utf-8']);
+
+                return response()->download($files, $name, $headers = ['Content-Type' => 'application/zip;charset=utf-8']);
             }
         }
         return -2;
