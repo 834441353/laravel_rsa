@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Device;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\DeviceModel;
-use App\Model\Updaterecord;
+use App\Model\UpdaterecordModel;
 use Illuminate\Support\Facades\Validator;
 
 // use Illuminate\Support\Facades\Input;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class DeviceauthorizeController extends Controller
 {
     //
-    public function index(Request $request, DeviceModel $deviceModel, Updaterecord $updaterecord)
+    public function index(Request $request, DeviceModel $deviceModel, UpdaterecordModel $updaterecord)
     {
         $val = '';
         $vals = '';
@@ -102,11 +102,11 @@ class DeviceauthorizeController extends Controller
     /**
      * 下载适用算法库接口
      * @param Request $request ：请求
-     * @param Updaterecord $updaterecord 更新记录
+     * @param UpdaterecordModel $updaterecord 更新记录
      * @param DeviceModel $deviceModel 设备库
      * @return int|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(Request $request, Updaterecord $updaterecord, DeviceModel $deviceModel)
+    public function download(Request $request, UpdaterecordModel $updaterecord, DeviceModel $deviceModel)
     {
 //        $files = './public/images/test.zip';
 //        $name = basename($files);       // basename() 函数返回路径中的文件名部分。
@@ -133,7 +133,20 @@ class DeviceauthorizeController extends Controller
                     return -2;
                 }
                 $d_md5 = md5($u_data->u_id . $macid . $chipid . $oldversion . $u_data->u_newversion);
+
                 if ($d_md5 != $token) {
+                    return -2;
+                }
+
+                if ($request->request->has('status')){
+                    $status = $request->request->get('status');
+                    if ($status=="1"){
+                        $a = $updaterecord->where("u_id",$u_data->u_id)->update(["status" => 1]);
+                        if(!$a){
+                            return -2;
+                        }
+                        return 1;
+                    }
                     return -2;
                 }
                 $filename = 'YXCFmodels/' . $u_data->u_newversion . '.zip';

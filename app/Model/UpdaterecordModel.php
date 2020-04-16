@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Updaterecord extends Model
+class UpdaterecordModel extends Model
 {
     //
     protected $table = "yx_updaterecord";
