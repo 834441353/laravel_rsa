@@ -95,6 +95,12 @@ MAIN CONTENT
 
     </div>
 </div>
+<footer class="site-footer navbar-fixed-bottom">
+    <div class="text-center">
+        <a href="http://www.beian.miit.gov.cn/" target="_blank"> 粤ICP备19101562号</a>
+
+    </div>
+</footer>
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="{{ asset('index') }}/assets/js/jquery.js"></script>
