@@ -12,8 +12,7 @@
             $('button').click(function () {
                 console.info('ajax..');
                 // var d_id = $('#d_id').val();
-                var d_mac = $('#d_mac').val();
-                var d_chipid = $('#d_chipid').val();
+                var d_didnum = $('#d_didnum').val();
                 var d_starttime = $('#d_starttime').val();
                 var d_endtime = $('#d_endtime').val();
                 var d_companyid = $('#d_companyid').val();
@@ -24,17 +23,17 @@
                 var d_tel = $('#d_tel').val();
                 var d_collectStatus = $('#d_collectStatus').val();
                 var status = $('#status').val();
-                console.info(d_chipid);
+                // console.log(d_didnum);
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{url('/tableshow/addDevice')}}',
+                    url: '{{url('/tableshow/addDid')}}',
                     dataType: 'json',
                     data: {
                         _token: '{{ csrf_token() }}',
                         // d_id: d_id,
-                        d_mac: d_mac,
-                        d_chipid: d_chipid,
+
+                        d_didnum: d_didnum,
                         d_starttime: d_starttime,
                         d_endtime: d_endtime,
                         d_companyid: d_companyid,
@@ -48,10 +47,9 @@
                     },
                     success: function (data) {
                         if (data.status) {
-                            console.log(data);
+                            console.log(data.message.toString());
                             toastr.success('添加成功！');
 
-                            {{--window.location.href = "{{url('/tableshow/company/')}}/"+d_companyid;--}}
                             window.location.href = "{{url('/tableshow/showDid')}}/"+data.message.toString();
 
                         } else {
@@ -63,7 +61,7 @@
                     },
                     error: function (data) {
                         console.log(data);
-                        console.info(data.message.toString());
+                        // console.info(data.message.toString());
                         toastr.warning(data.message.toString());
                     },
                 });
@@ -100,8 +98,8 @@ MAIN SIDEBAR MENU
                     </a>
                     <ul class="sub">
                         <li><a  href="{{url('/tableshow/addCompany')}}">添加公司</a></li>
-                        <li class="active"><a  href="{{url('/tableshow/addDevice')}}">添加设备</a></li>
-                        <li><a  href="{{url('/tableshow/addDid')}}">添加ID</a></li>
+                        <li><a  href="{{url('/tableshow/addDevice')}}">添加设备</a></li>
+                        <li class="active"><a  href="{{url('/tableshow/addDid')}}">添加ID</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -140,20 +138,32 @@ MAIN SIDEBAR MENU
                         <h4 class="mb"><i class="fa fa-angle-right"></i> 设备信息</h4>
                         <form class="form-horizontal style-form" method="post">
                             {{ csrf_field() }}
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-sm-2 col-sm-2 control-label">Mac地址</label>--}}
+                                {{--<div class="col-sm-10">--}}
+                                    {{--<input type="test" style="display:none" id="d_id" name="d_id">--}}
+                                    {{--<input type="text" class="form-control" id="d_mac" name="d_mac">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-sm-2 col-sm-2 control-label">CPU序列号</label>--}}
+                                {{--<div class="col-sm-10">--}}
+                                    {{--<input type="text" class="form-control" id="d_chipid" name="d_chipid">--}}
+
+                                {{--</div>--}}
+                            {{--</div>--}}
+
                             <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">Mac地址</label>
+                                <label class="col-sm-2 col-sm-2 control-label">设备数量</label>
                                 <div class="col-sm-10">
                                     {{--<input type="test" style="display:none" id="d_id" name="d_id">--}}
-                                    <input type="text" class="form-control" id="d_mac" name="d_mac">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">CPU序列号</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="d_chipid" name="d_chipid">
+                                    {{--<input type="text" class="form-control" id="d_chipid" name="d_chipid">--}}
+                                    <input type="number" class="form-control" step="1" min="1" max="100" id="d_didnum" name="d_didnum"/>
 
                                 </div>
                             </div>
+
+
                             <div class="form-group form-inline">
                                 <label class="col-sm-2 col-sm-2 control-label">授权时间段</label>
                                 <div class="col-sm-10">
@@ -163,7 +173,7 @@ MAIN SIDEBAR MENU
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">芯片平台</label>
+                                <label class="col-sm-2 col-sm-2 control-label">设备平台</label>
                                 <div class="col-sm-10">
 
                                     <select class="combobox form-control" id="p_id" name="p_id">

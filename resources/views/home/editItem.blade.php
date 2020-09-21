@@ -22,6 +22,7 @@
                 var d_version = $('#d_version').val();
                 var d_name = $('#d_name').val();
                 var d_tel = $('#d_tel').val();
+                var d_collectStatus = $('#d_collectStatus').val();
                 var status = $('#status').val();
 
                 $.ajax({
@@ -40,6 +41,7 @@
                         d_version: d_version,
                         d_name: d_name,
                         d_tel: d_tel,
+                        d_collectStatus:d_collectStatus,
                         status: status,
                     },
                     success: function (data) {
@@ -103,6 +105,7 @@
                         <ul class="sub">
                             <li><a href="{{url('/tableshow/addCompany')}}">添加公司</a></li>
                             <li><a href="{{url('/tableshow/addDevice')}}">添加设备</a></li>
+                            <li><a  href="{{url('/tableshow/addDid')}}">添加ID</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -114,6 +117,12 @@
                             <li><a href="morris.html">导入设备列表</a></li>
                             {{--<li><a  href="chartjs.html">导入公司列表</a></li>--}}
                         </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="{{url('/tableshow/searchDevice')}}" >
+                            <i class="fa fa-search"></i>
+                            <span>设备查询</span>
+                        </a>
                     </li>
                 </ul>
                 <!-- sidebar menu end-->
@@ -142,6 +151,13 @@
                                   action="{{url('tableshow/company/editItem')}}">
                                 {{ csrf_field() }}
                                 <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">ID</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="d_did" name="d_did" readonly
+                                               value="{{$data["d_did"]}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-2 col-sm-2 control-label">Mac地址</label>
                                     <div class="col-sm-10">
                                         <input type="test" style="display:none" id="d_id" name="d_id"
@@ -153,7 +169,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 col-sm-2 control-label">CPU序列号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="d_chipid" name="d_chipid"
+                                        <input type="text" class="form-control" id="d_chipid" name="d_chipid" readonly
                                                value="{{$data["d_chipid"]}}">
                                         {{--<span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>--}}
                                     </div>
@@ -191,6 +207,20 @@
                                         {{--<input type="text" class="form-control" placeholder="placeholder">--}}
                                         <input type="text" class="form-control" id="d_version" name="d_version"
                                                value="{{$data["d_version"]}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">数据收集</label>
+                                    <div class="col-sm-10">
+                                        {{--<input type="password" class="form-control" placeholder="">--}}
+                                        {{--<input type="tel" class="form-control" id="d_tel" name="d_tel" value="{{$data["d_tel"]}}">--}}
+                                        {{--<button type="button" class></button>--}}
+                                        <select class="combobox form-control" id="d_collectStatus" name="d_collectStatus">
+
+                                            <option value="1" {{$data["d_collectStatus"]==1?"selected":""}}>关闭</option>
+                                            <option value="2" {{$data["d_collectStatus"]==2?"selected":""}}>打开</option>
+
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">

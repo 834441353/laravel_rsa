@@ -14,16 +14,21 @@
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::match(['get', 'post'], 'login', 'Admin\IndexController@login');
+Route::match(['get', 'post'], 'login', 'Admin\IndexController@login')->name('login');
 
 Route::group(['middleware' => 'logvisitor'], function () {
 
     Route::any('device', 'Device\DeviceauthorizeController@index');
 
-    Route::any('device/download', 'Device\DeviceauthorizeController@download');
+    Route::any('device2', 'Device\DeviceauthorizeController@index2');
+
+//    Route::any('device/download', 'Device\DeviceauthorizeController@download');
+
+//    Route::any('deviceic', 'Device\DeviceauthorizeController@deviceic');
 
     Route::any('imgrecevice', 'Home\IndexController@imgRecevice');
-//});
+
+
 
 
     Route::group(['middleware' => 'checkadminlogin'], function () {
@@ -35,6 +40,8 @@ Route::group(['middleware' => 'logvisitor'], function () {
         Route::get('/tableshow/company/editItem/{id}', 'Home\IndexController@edita');
         Route::post('/tableshow/company/editItem/', 'Home\IndexController@edita');
 
+        Route::match(['get', 'post'],'/tableshow/searchDevice', 'Home\IndexController@searchDevice');
+
 //    Route::get('/tableshow/addDevice','Home\IndexController@addDevice');
 //    Route::post('/tableshow/addDevice','Home\IndexController@addDevice');
         Route::match(['get', 'post'], '/tableshow/addDevice', 'Home\IndexController@addDevice');
@@ -44,9 +51,14 @@ Route::group(['middleware' => 'logvisitor'], function () {
 //    Route::post('/tableshow/addCompany','Home\IndexController@addCompany');
         Route::match(['get', 'post'], '/tableshow/addCompany', 'Home\IndexController@addCompany');
 
+        Route::match(['get', 'post'], '/tableshow/addDid', 'Home\IndexController@createDid');
+        Route::get('/tableshow/showDid/{id}', 'Home\IndexController@showDid');
+
         Route::post('/tableshow/company/dela', 'Home\IndexController@dela');
         Route::get('/additem', 'Home\IndexController@additem');
         Route::get('/importexcel', 'Home\IndexController@importexcel');
+
+        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
         Route::get('logout', 'Admin\IndexController@logout');
     });
@@ -56,5 +68,6 @@ Route::group(['middleware' => 'checkadminlogin'], function () {
 //    Route::get('/','Home\IndexController@index');
     Route::get('/', 'Home\IndexController@tableshow');
 });
+
 
 
