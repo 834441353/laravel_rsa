@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>DASHGUM - FREE Bootstrap Admin Template</title>
+    <title>SLSJ算法授权加密管理</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('index') }}/assets/css/bootstrap.css" rel="stylesheet">
@@ -229,7 +229,12 @@
 
     @yield('content')
 
+    {{--<footer class="site-footer navbar-fixed-bottom">--}}
+        {{--<div class="text-center">--}}
+            {{--<a href="http://beian.miit.gov.cn/" target="_blank"> 粤ICP备19101562号</a>--}}
 
+        {{--</div>--}}
+    {{--</footer>--}}
 </section>
 
 

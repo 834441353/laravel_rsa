@@ -31,6 +31,7 @@ class LogVisitor
             $data = [
                 'ip' => $request->getClientIp(),
                 'url' => $request->path(),
+                'time' => $this->getElapsedTime(),
                 'method' => $request->getRealMethod(),
                 'request_content' => json_encode($request->all()),
 //                'response_content' => $response->content(),
@@ -38,16 +39,48 @@ class LogVisitor
             ];
             Log::info($data);
             return $response;
+        }elseif($request->path() == 'logs'){
+            return $response;
         }
 
-        if ($request->path() == 'device' or $request->path() == 'imgrecevice') {
-
+        if ($request->path() == 'device2') {
             $data = [
                 'ip' => $request->getClientIp(),
                 'url' => $request->path(),
+                'time' => $this->getElapsedTime(),
+                'method' => $request->getRealMethod(),
+                'request_content' => $request->request->has('info') ? $request->request->get('info') : $request->all(),
+                'response_content' => base64_decode($response->content()) == -2 ? base64_decode($response->content()) : $response->content(),
+                'response_statuscode' => $response->status(),
+            ];
+        }elseif($request->path() == 'device'){
+            $data = [
+                'ip' => $request->getClientIp(),
+                'url' => $request->path(),
+                'time' => $this->getElapsedTime(),
                 'method' => $request->getRealMethod(),
                 'request_content' => json_encode($request->all()),
                 'response_content' => $response->content(),
+                'response_statuscode' => $response->status(),
+            ];
+        } elseif ($request->path() == 'imgrecevice') {
+            $data = [
+                'ip' => $request->getClientIp(),
+                'url' => $request->path(),
+                'time' => $this->getElapsedTime(),
+                'method' => $request->getRealMethod(),
+                'request_content' => json_encode($request->all()),
+                'response_content' => $response->content(),
+                'response_statuscode' => $response->status(),
+            ];
+        } elseif ($request->path() == 'deviceic') {
+            $data = [
+                'ip' => $request->getClientIp(),
+                'url' => $request->path(),
+                'time' => $this->getElapsedTime(),
+                'method' => $request->getRealMethod(),
+                'request_content' => json_encode($request->all()),
+                'response_content' => base64_decode($response->content()),
                 'response_statuscode' => $response->status(),
             ];
         } else {
@@ -60,6 +93,7 @@ class LogVisitor
             $data = [
                 'ip' => $request->getClientIp(),
                 'url' => $request->path(),
+                'time' => $this->getElapsedTime(),
                 'method' => $request->getRealMethod(),
                 'userid' => $user,
                 'request_content' => json_encode($request->all()),
@@ -67,11 +101,16 @@ class LogVisitor
             ];
         }
         if ($response->content() == '-2') {
-            Log::warning($data);
+            Log::warning(json_encode($data));
         } else {
-            Log::info($data);
+            Log::info(json_encode($data));
         }
-
+        dd(time(),microtime(true),request(),response());
         return $response;
+    }
+
+    function getElapsedTime(int $decimals  = 4)
+    {
+        return number_format(microtime(true) - request()->server('REQUEST_TIME_FLOAT'), $decimals) . ' s';
     }
 }

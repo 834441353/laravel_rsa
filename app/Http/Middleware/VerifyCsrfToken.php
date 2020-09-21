@@ -20,8 +20,10 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         "device",
+        "device2",
         "device/download",
-        "imgrecevice"
+        "imgrecevice",
+        "deviceic",
         //
     ];
 }

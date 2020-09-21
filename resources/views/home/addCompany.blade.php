@@ -80,6 +80,7 @@ MAIN SIDEBAR MENU
                     <ul class="sub">
                         <li class="active"><a  href="{{url('/tableshow/addCompany')}}">添加公司</a></li>
                         <li><a  href="{{url('/tableshow/addDevice')}}">添加设备</a></li>
+                        <li><a  href="{{url('/tableshow/addDid')}}">添加ID</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -91,6 +92,12 @@ MAIN SIDEBAR MENU
                         <li><a  href="morris.html">导入设备列表</a></li>
                         {{--<li><a  href="chartjs.html">导入公司列表</a></li>--}}
                     </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="{{url('/tableshow/searchDevice')}}" >
+                        <i class="fa fa-search"></i>
+                        <span>设备查询</span>
+                    </a>
                 </li>
             </ul>
             <!-- sidebar menu end-->
