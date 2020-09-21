@@ -105,7 +105,7 @@ class LogVisitor
         } else {
             Log::info(json_encode($data));
         }
-        dd(time(),microtime(true),request(),response());
+        //dd(time(),microtime(true),request(),response());
         return $response;
     }
 
