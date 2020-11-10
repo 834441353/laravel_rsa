@@ -28,6 +28,9 @@ Route::group(['middleware' => 'logvisitor'], function () {
 
     Route::any('imgrecevice', 'Home\IndexController@imgRecevice');
 
+    Route::any('Stdevice', 'Home\StController@addStdevice');
+
+    Route::any('imgreceviceSt', 'Home\StController@imgRecevice');
 
 
 

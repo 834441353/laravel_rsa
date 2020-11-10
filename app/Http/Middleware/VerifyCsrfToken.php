@@ -24,6 +24,8 @@ class VerifyCsrfToken extends Middleware
         "device/download",
         "imgrecevice",
         "deviceic",
+        "imgreceviceSt",
+        "Stdevice",
         //
     ];
 }

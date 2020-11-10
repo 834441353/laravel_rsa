@@ -53,7 +53,7 @@ class LogVisitor
                 'response_content' => base64_decode($response->content()) == -2 ? base64_decode($response->content()) : $response->content(),
                 'response_statuscode' => $response->status(),
             ];
-        }elseif($request->path() == 'device'){
+        }elseif($request->path() == 'device' or $request->path() == 'Stdevice'){
             $data = [
                 'ip' => $request->getClientIp(),
                 'url' => $request->path(),
@@ -63,7 +63,7 @@ class LogVisitor
                 'response_content' => $response->content(),
                 'response_statuscode' => $response->status(),
             ];
-        } elseif ($request->path() == 'imgrecevice') {
+        } elseif ($request->path() == 'imgrecevice' or $request->path() == 'imgreceviceSt') {
             $data = [
                 'ip' => $request->getClientIp(),
                 'url' => $request->path(),
