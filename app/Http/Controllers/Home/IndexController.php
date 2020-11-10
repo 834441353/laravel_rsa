@@ -222,6 +222,9 @@ class IndexController extends Controller
             }
             //$deviceid = $request->request->get('deviceid');
             $mac = $request->request->get('mac');
+            if($mac == null){
+                return -2;
+            }
 //            $fileinfo = $request->request->get('fileinfo');
             //dd($request->request);
             if ($request->hasFile('fileinfo')) {
@@ -231,7 +234,7 @@ class IndexController extends Controller
                 }
                 $fileName = $file->getClientOriginalName();
 //            $savePath = $id.'/'.strtotime(date("Y-m-d H:i:s")).'_'.$fileName;
-                $savePath = $mac . '/' . md5(time() . rand(1000, 9999)) . '_' . $fileName;
+                $savePath = 'face/'.$mac . '/' . md5(time() . rand(1000, 9999)) . '_' . $fileName;
                 $status = Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
 //            $status = Storage::put($savePath, $fileinfo);//通过Storage put方法存储   File::get获取到的是文件内容
                 if (!$status) {

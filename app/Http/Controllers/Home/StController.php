@@ -20,6 +20,9 @@ class StController extends Controller
             }
             $mac = $request->request->get('mac');
             $chipid = $request->request->get('chipid');
+            if($mac ==null or $chipid == null){
+                return -2;
+            }
             $data = $stdeviceModel->where('st_mac', $mac)->first();
             if ($data == null) {
                 $status = $stdeviceModel->create(['st_mac' => $mac, 'st_chipid' => $chipid]);
