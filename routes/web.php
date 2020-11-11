@@ -61,6 +61,10 @@ Route::group(['middleware' => 'logvisitor'], function () {
         Route::get('/additem', 'Home\IndexController@additem');
         Route::get('/importexcel', 'Home\IndexController@importexcel');
 
+        Route::get('/showStdevices', 'Home\StController@showStdevices');
+        Route::get('/showStdevices/editStdevice/{id}', 'Home\StController@editStdevices');
+        Route::post('/showStdevices/editStdevice/', 'Home\StController@editStdevices');
+
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
         Route::get('logout', 'Admin\IndexController@logout');

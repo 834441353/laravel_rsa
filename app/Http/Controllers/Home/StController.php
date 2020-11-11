@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
+use Validator;
+
 class StController extends Controller
 {
     //
@@ -87,5 +89,47 @@ class StController extends Controller
             return -2;//非法请求,请求方式不为post
         }
 
+    }
+
+    public function showStdevices(StdeviceModel $stdeviceModel){
+
+        $data = $stdeviceModel->paginate(13);
+        return view('home.stdevicesShow', compact('data'));
+    }
+
+    public function editStdevices(Request $request, StdeviceModel $stdeviceModel){
+        if ($request->isMethod("get")) {
+            $id = $request->id;
+            $data = $stdeviceModel->find($id);
+//            dd($data);
+            return view('home.editStdevice', ["data" => $data]);
+        } elseif ($request->isMethod("post")) {
+            $data = $request->request->all();
+//            dd($data);
+            $check = [
+//                'd_chipid'=>'required',
+                'st_id' => 'required',
+                'st_mac' => 'required',
+                'st_chipid' => 'required',
+                'st_collectStatus' => 'required',
+            ];
+            $messages = [
+//                'd_chipid.required' => 'chipid不能为空！',
+                'st_id.required' => 'ID不能为空！',
+                'st_mac.required' => 'MAC不能为空！',
+                'st_chipid.required' => 'CPU序列号不能为空！',
+                'st_collectStatus.required' => '收集状态不能为空！',
+            ];
+            $status = Validator::make($data, $check, $messages);
+            if ($status->fails()) {
+                return ['status' => false, 'message' => $status->messages()->all()];
+            }
+            $status = $stdeviceModel->where("st_id", $data['st_id'])->update(['st_collectStatus' => $data['st_collectStatus']]);
+            if ($status) {
+                return ['status' => true, 'message' => ['添加成功！']];
+            } else {
+                return ['status' => false, 'message' => ['添加失败！']];
+            }
+        }
     }
 }

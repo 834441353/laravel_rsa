@@ -99,6 +99,12 @@ MAIN SIDEBAR MENU
                         <span>设备查询</span>
                     </a>
                 </li>
+                <li class="sub-menu">
+                    <a href="{{ url('/showStdevices') }}">
+                        <i class="fa fa-th"></i>
+                        <span>扫描笔设备表</span>
+                    </a>
+                </li>
             </ul>
             <!-- sidebar menu end-->
         </div>
