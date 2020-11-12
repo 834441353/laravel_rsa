@@ -94,7 +94,9 @@ class StController extends Controller
     public function showStdevices(StdeviceModel $stdeviceModel){
 
         $data = $stdeviceModel->paginate(13);
-        return view('home.stdevicesShow', compact('data'));
+        $count = $stdeviceModel->count();
+//        return view('home.stdevicesShow', compact('data'));
+        return view('home.stdevicesShow', ["data" => $data,'count'=>$count]);
     }
 
     public function editStdevices(Request $request, StdeviceModel $stdeviceModel){

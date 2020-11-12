@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="content-panel">
-                            <h4><i class="fa fa-angle-right"></i> St01</h4>
+                            <h4><i class="fa fa-angle-right"></i> St01 &nbsp&nbsp&nbsp( 设备总数：{{$count}} ) </h4>
                             <hr>
                             <table class="table table-striped table-advance table-hover">
 
