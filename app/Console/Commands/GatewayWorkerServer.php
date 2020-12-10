@@ -7,6 +7,8 @@ use GatewayWorker\BusinessWorker;
 use GatewayWorker\Gateway;
 use GatewayWorker\Register;
 use Workerman\Worker;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class GatewayWorkerServer extends Command
 {
@@ -53,55 +55,15 @@ class GatewayWorkerServer extends Command
     }
     private function start()
     {
-//        $this->startGateWay();
-//        $this->startBusinessWorker();
-//        $this->startRegister();
-        $udp_worker = new Worker('udp://127.0.0.1:9090');
+
+        $udp_worker = new Worker('udp://0.0.0.0:9090');
         $udp_worker->onMessage = function($connection, $data){
-            echo "onMessage\r\n";
+            Log::info(json_encode($connection));
+            $savePath ='st01/' . '/' . md5(time() . rand(1000, 9999));
+            $status = Storage::put($savePath, $data);
+
         };
         Worker::runAll();
     }
-
-    private function startBusinessWorker()
-    {
-        $worker                  = new BusinessWorker();
-        $worker->name            = 'BusinessWorker';
-        $worker->count           = 1;
-        $worker->registerAddress = '127.0.0.1:1236';
-        $worker->eventHandler    = \App\GatewayWorker\Events::class;
-    }
-
-    private function startGateWay()
-    {
-        $gateway = new Gateway("websocket://0.0.0.0:2346");
-        $gateway->name                 = 'Gateway';
-        $gateway->count                = 1;
-        $gateway->lanIp                = '127.0.0.1';
-        $gateway->startPort            = 2300;
-        $gateway->pingInterval         = 30;
-        $gateway->pingNotResponseLimit = 0;
-        $gateway->pingData             = '{"type":"ping"}';
-        $gateway->registerAddress      = '127.0.0.1:1236';
-    }
-
-    private function startRegister()
-    {
-        new Register('text://0.0.0.0:1236');
-    }
-
-    //php artisan workman start --d  之后    打开浏览器F12 将内容复制到console里return就行
-    /* ws = new WebSocket("ws://192.168.136.128:2346");
-     ws.onopen = function() {
-         ws . send('{"name":"one","user_id":"111"}');
-         ws . send('{"name":"two","user_id":"222"}');
-     };
-     ws.onmessage = function(e) {
-         console.log("收到服务端的消息：" + e.data);
-     };
-     ws.onclose = function(e) {
-         console.log("服务已断开" );
-     };*/
-
 
 }
