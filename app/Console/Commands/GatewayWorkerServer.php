@@ -53,7 +53,7 @@ class GatewayWorkerServer extends Command
     private function start()
     {
 
-        $udp_worker = new Worker("udp://127.0.0.1:9090");
+        $udp_worker = new Worker("udp://0.0.0.0:9090");
         $udp_worker->count = 4;
         $udp_worker->onMessage = function($connection, $data){
             Log::info(json_encode($connection));
