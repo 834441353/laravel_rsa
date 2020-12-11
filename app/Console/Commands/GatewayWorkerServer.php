@@ -3,9 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use GatewayWorker\BusinessWorker;
-use GatewayWorker\Gateway;
-use GatewayWorker\Register;
 use Workerman\Worker;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -56,7 +53,8 @@ class GatewayWorkerServer extends Command
     private function start()
     {
 
-        $udp_worker = new Worker('udp://0.0.0.0:9090');
+        $udp_worker = new Worker("udp://127.0.0.1:9090");
+        $udp_worker->count = 4;
         $udp_worker->onMessage = function($connection, $data){
             Log::info(json_encode($connection));
             $savePath ='st01/' . '/' . md5(time() . rand(1000, 9999));
